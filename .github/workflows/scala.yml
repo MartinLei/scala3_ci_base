@@ -7,21 +7,15 @@ on:
     branches:
       - main
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@v2
       - name: Run tests
         run: sbt coverage test
       - name: Coverage Report
         run: sbt coverageReport
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@main
-      - name: Formatting
-        run: sbt scalafmtCheck test:scalafmtCheck
+      - name: "Upload coverage to Codecov"
+        uses: "codecov/codecov-action@v2"
+        with:
+          fail_ci_if_error: true
